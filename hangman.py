@@ -1,10 +1,12 @@
 import random
 
+#adding r before a string will make the string a "raw string". So \n and other things will not be considered
+
 def print_hangman(tries):
     """Prints the hangman based on the number of incorrect tries."""
 
     stages = [# initial empty state, mistake = 0
-                """
+                r"""
                    --------
                    |      
                    |    
@@ -14,7 +16,7 @@ def print_hangman(tries):
                    -
                 """,
                 # head, mistake = 1``
-                """
+                r"""
                    --------
                    |      
                    |      O
@@ -24,7 +26,7 @@ def print_hangman(tries):
                    -
                 """,
                 # head and torso, mistake = 2
-                """
+                r"""
                    --------
                    |      
                    |      O
@@ -34,43 +36,43 @@ def print_hangman(tries):
                    -
                 """,
                 # head, torso, and one arm, mistake = 3
-                """
+                r"""
                    --------
                    |      
                    |      O
-                   |    \\|
+                   |     \|
                    |      |
                    |     
                    -
                 """,
                 # head, torso, and both arms, mistake = 4
-                """
+                r"""
                    --------
                    |      
                    |      O
-                   |    \\|/
+                   |     \|/
                    |      |
                    |      
                    -
                 """,
                 # head, torso, both arms, and one leg, mistake = 5
-                """
+                r"""
                    --------
                    |      
                    |      O
-                   |    \\|/
+                   |     \|/
                    |      |
                    |     / 
                    -
                 """,
                 # final state: head, torso, both arms, and both legs, mistake = 6
-                """
+                r"""
                    --------
                    |      |
                    |      O
-                   |    \\|/
+                   |     \|/
                    |      |
-                   |     / \\
+                   |     / \
                    -
                 """
     ]
@@ -79,16 +81,22 @@ def print_hangman(tries):
 def game_start(guess):
     print("THE GAME STARTS!!!")
     print("guess the movie:")
-    # print(guess)
-    unknown = ["_"]*len(guess)
+    
+    unknown = []
+    for i in range(len(guess)):
+        if guess[i] == " ":
+            unknown.append(" ")
+        
+        else:
+            unknown.append("_")
     mistakes = 0
     life = 6
     alphabets = set()
     
     while "_" in unknown and mistakes < 6:
         check = False #Flag variable
-        print("No. of spelling to find:",unknown)
-        user_input = input("guess one letter:").lower()
+        print("Spelling HINT:",(" ").join(unknown))
+        user_input = input("guess one letter:").upper()
     
         if user_input in alphabets:
             print("You have already entered that letter, choose different one")
@@ -98,12 +106,15 @@ def game_start(guess):
             alphabets.add(user_input)
             
             for i in range(0,len(guess)):
-                if guess[i] == user_input:
+                if guess[i] == " ":
+                    continue
+
+                elif guess[i] == user_input:
                     unknown[i] = user_input
-                    check = True
+                    check = True    
                 
             if check == True:
-                print("hooray!!, You have guessed correct")
+                print("You have guessed correct")
                 print("Remaining LIVES:",life)
                 print()
 
@@ -117,13 +128,14 @@ def game_start(guess):
                 print()
         
         if "_" not in unknown:
-            print("CONGRAGULATIONS, YOU HAVE WON THE GAME....")
+            print("YOU HAVE GUESSED THE CORRECT MOVIE NAME:",guess.upper())
+            print("---------------CONGRAGULATIONS, YOU HAVE WON THE GAME-----------------")
 
         if mistakes == 6:
-            print("GAME OVER....")          
-        
+            print("---------------GAME OVER---------------")   
 
-movies = ["avatar","avengers","titanic","joker","kill"]
+movies = ["DOCTOR STRANGE","LA LA LAND","BLACK PANTHER","MURDER ON THE ORIENT EXPRESS","LORD OF THE RINGS", "AVENGERS", "THE NUN", "MISSION IMPOSSIBLE", "BIG HERO 6"
+          "HARRY POTTER", "THE HOBBIT", "HANGOVER"]
 
 guess = random.choice(movies)
 
