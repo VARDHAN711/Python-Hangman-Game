@@ -124,12 +124,7 @@ def game_start(guess):
         
 
 movies = ["avatar","avengers","titanic","joker","kill"]
-while 1:
-    guess = random.choice(movies)
-    control = input("Enter 'start' or 'exit':").lower()
 
-    if control == "start":
-        game_start(guess)
-    else:
-        print("EXITING THE GAME...")
-        exit()
+guess = random.choice(movies)
+
+game_start(guess)
