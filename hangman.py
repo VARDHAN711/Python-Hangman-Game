@@ -79,8 +79,14 @@ def print_hangman(tries):
 def game_start(guess):
     print("THE GAME STARTS!!!")
     print("guess the movie:")
-    # print(guess)
-    unknown = ["_"]*len(guess)
+    print(guess)
+    unknown = []
+    for i in range(len(guess)):
+        if guess[i] == " ":
+            unknown.insert(i," ")
+        
+        else:
+            unknown.append("_")
     mistakes = 0
     life = 6
     alphabets = set()
@@ -88,7 +94,7 @@ def game_start(guess):
     while "_" in unknown and mistakes < 6:
         check = False #Flag variable
         print("No. of spelling to find:",unknown)
-        user_input = input("guess one letter:").lower()
+        user_input = input("guess one letter:").upper()
     
         if user_input in alphabets:
             print("You have already entered that letter, choose different one")
@@ -98,9 +104,12 @@ def game_start(guess):
             alphabets.add(user_input)
             
             for i in range(0,len(guess)):
-                if guess[i] == user_input:
+                if guess[i] == " ":
+                    continue
+
+                elif guess[i] == user_input:
                     unknown[i] = user_input
-                    check = True
+                    check = True    
                 
             if check == True:
                 print("hooray!!, You have guessed correct")
@@ -117,13 +126,13 @@ def game_start(guess):
                 print()
         
         if "_" not in unknown:
+            print("HURRAY, YOU HAVE GUESSED THE CORRECT MOVIE NAME:",guess.upper())
             print("CONGRAGULATIONS, YOU HAVE WON THE GAME....")
 
         if mistakes == 6:
-            print("GAME OVER....")          
-        
+            print("GAME OVER....")   
 
-movies = ["avatar","avengers","titanic","joker","kill"]
+movies = ["DOCTER STRANGE","JAWAN","BLACK PANTHER","PATHAAN","LORD OF RINGS"]
 
 guess = random.choice(movies)
 
