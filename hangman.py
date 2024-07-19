@@ -15,7 +15,7 @@ def print_hangman(tries):
                    |     
                    -
                 """,
-                # head, mistake = 1``
+                # head, mistake = 1, life = 7
                 r"""
                    --------
                    |      
@@ -23,9 +23,9 @@ def print_hangman(tries):
                    |    
                    |      
                    |     
-                   -
+                   -     ===
                 """,
-                # head and torso, mistake = 2
+                # head and torso, mistake = 2, life = 6
                 r"""
                    --------
                    |      
@@ -33,9 +33,9 @@ def print_hangman(tries):
                    |      |
                    |      |
                    |     
-                   -
+                   -     ===
                 """,
-                # head, torso, and one arm, mistake = 3
+                # head, torso, and one arm, mistake = 3, life = 5
                 r"""
                    --------
                    |      
@@ -43,9 +43,9 @@ def print_hangman(tries):
                    |     \|
                    |      |
                    |     
-                   -
+                   -     ===
                 """,
-                # head, torso, and both arms, mistake = 4
+                # head, torso, and both arms, mistake = 4, life = 4
                 r"""
                    --------
                    |      
@@ -53,9 +53,9 @@ def print_hangman(tries):
                    |     \|/
                    |      |
                    |      
-                   -
+                   -     ===
                 """,
-                # head, torso, both arms, and one leg, mistake = 5
+                # head, torso, both arms, and one leg, mistake = 5, life = 3
                 r"""
                    --------
                    |      
@@ -63,24 +63,44 @@ def print_hangman(tries):
                    |     \|/
                    |      |
                    |     / 
-                   -
+                   -     ===
                 """,
-                # final state: head, torso, both arms, and both legs, mistake = 6
+                # final state: head, torso, both arms, and both legs, mistake = 6, life = 2
                 r"""
                    --------
-                   |      |
+                   |      
                    |      O
                    |     \|/
                    |      |
                    |     / \
-                   -
+                   -     ===
+                """,
+                # last life , mistakes=7, life = 1
+                r"""
+                   --------
+                   |      |
+                   |     /O\
+                   |     \|/
+                   |      |
+                   |     / \
+                   -     ===
+                """,
+                # dead mistake = 8, life= 0
+                r"""
+                   -----------
+                   | DEAD  DEAD
+                   | DEAD  DEAD
+                   | DEAD  DEAD
+                   | DEAD  DEAD
+                   | DEAD  DEAD
+                   -     
                 """
     ]
     print(stages[tries])
 
 def game_start(guess):
     print("THE GAME STARTS!!!")
-    print("guess the movie:")
+    print("GUESS THE MOVIE:")
     
     unknown = []
     for i in range(len(guess)):
@@ -90,21 +110,26 @@ def game_start(guess):
         else:
             unknown.append("_")
     mistakes = 0
-    life = 6
+    life = 8
     alphabets = set()
-    
-    while "_" in unknown and mistakes < 6:
+    eng = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+    while "_" in unknown and mistakes < 8:
         check = False #Flag variable
-        print("Spelling HINT:",(" ").join(unknown))
-        user_input = input("guess one letter:").upper()
-    
+        print("SPELLING HINT:",(" ").join(unknown))
+        print("REMAINING LETTERS:")
+        print((" ").join(eng))
+        print()
+        user_input = input("GUESS ONE LETTER:").upper()
+        eng.remove(user_input)
+        
         if user_input in alphabets:
-            print("You have already entered that letter, choose different one")
+            print("YOU HAVE ALREADY ENTERED THAT LETTER, CHOOSE ANOTHER:")
             print()
 
         else:
             alphabets.add(user_input)
-            
+
             for i in range(0,len(guess)):
                 if guess[i] == " ":
                     continue
@@ -114,16 +139,17 @@ def game_start(guess):
                     check = True    
                 
             if check == True:
-                print("You have guessed correct")
-                print("Remaining LIVES:",life)
+                print()
+                print("YOU HAVE GUESSED CORRECT")
+                print("REMAINING LIVES:",life)
                 print()
 
             else:
-                print("You have guessed wrong... try again")
+                print("YOU HAVE GUESSED WRONG")
                 print("YOU HAVE LOST A LIFE")
                 mistakes += 1
                 life -= 1
-                print("Remaining LIVES:",life)
+                print("REMAINING LIVES:",life)
                 print_hangman(mistakes)
                 print()
         
@@ -131,7 +157,7 @@ def game_start(guess):
             print("YOU HAVE GUESSED THE CORRECT MOVIE NAME:",guess.upper())
             print("---------------CONGRAGULATIONS, YOU HAVE WON THE GAME-----------------")
 
-        if mistakes == 6:
+        if mistakes == 8:
             print("---------------GAME OVER---------------")   
 
 movies = ["DOCTOR STRANGE","LA LA LAND","BLACK PANTHER","MURDER ON THE ORIENT EXPRESS","LORD OF THE RINGS", "AVENGERS", "THE NUN", "MISSION IMPOSSIBLE", "BIG HERO 6"
